@@ -8,11 +8,11 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>net.codejava</groupId>
-	<artifactId>SpringBootRegistrationLogin</artifactId>
+	<groupId>com.exed1on</groupId>
+	<artifactId>ec-shop</artifactId>
 	<version>1.0</version>
-	<name>SpringBootRegistrationLogin</name>
-	<description>Demo registration (sign up) and Login (Sign in)</description>
+	<name>ec-shop</name>
+	<description>Demo eshop</description>
 
 	<properties>
 		<java.version>11</java.version>
