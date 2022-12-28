@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +21,25 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CreationTimestamp
+    private LocalDateTime timeCreated;
+
+    @UpdateTimestamp
+    private LocalDateTime timeChanged;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private double sum;
+
+    private String address;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderDetails> details;
+
+    @Enumerated
+    private OrderStatus status;
+
 }

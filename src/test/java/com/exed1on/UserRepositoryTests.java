@@ -3,7 +3,6 @@ package com.exed1on;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.exed1on.model.User;
-import com.exed1on.repos.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
