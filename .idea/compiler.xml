@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ec-shop" />
+        <module name="spring-eshop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ec-shop" target="11" />
       <module name="SpringBootRegistrationLogin" target="11" />
     </bytecodeTargetLevel>
   </component>
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SpringBootRegistrationLogin" options="-parameters" />
       <module name="ec-shop" options="-parameters" />
+      <module name="spring-eshop" options="-parameters" />
     </option>
   </component>
 </project>

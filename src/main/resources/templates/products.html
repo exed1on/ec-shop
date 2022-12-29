@@ -8,20 +8,16 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<p th:if="${loginError}" class="error">Wrong username or password</p>
-<form th:action="@{/auth}" method="post">
-  <table botder="1">
+  <table botder="1" align="center">
     <tr>
-      <td>Name</td>
-      <td><input type="text" name="username"></td>
+      <td>Title</td>
+      <td>Price</td>
     </tr>
-    <tr>
-      <td>Password</td>
-      <td><input type="password" name="password"></td>
+    <tr th:each="products : ${products}">
+      <td th:each="${products.title}">Apples</td>
+      <td th:each="${products.price}">100.50</td>
     </tr>
   </table>
-  <button type="submit">Log in</button>
-</form>
 
 </body>
 </html>
