@@ -11,13 +11,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,7 +35,33 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
     }
 
-    private UserDTO toDto(User user){
+    @Override
+    public User findByName(String name) {
+        return userRepository.findFirstByName(name);
+    }
+
+    @Override
+    @Transactional
+    public void updateProfile(UserDTO dto) {
+        User savedUser = userRepository.findFirstByName(dto.getUsername());
+        if (savedUser == null) {
+            throw new RuntimeException("User not found by name" + dto.getUsername());
+        }
+        boolean changed = false;
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+            changed = true;
+        }
+        if (!Objects.equals(dto.getEmail(), savedUser.getEmail())) {
+            savedUser.setEmail(dto.getEmail());
+            changed = true;
+        }
+        if (changed) {
+            userRepository.save(savedUser);
+        }
+    }
+
+    private UserDTO toDto(User user) {
         return UserDTO.builder()
                 .username(user.getName())
                 .email(user.getEmail())
@@ -43,7 +70,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean save(UserDTO userDto) {
-        if(!Objects.equals(userDto.getPassword(), userDto.getMatchingPassword())){
+        if (!Objects.equals(userDto.getPassword(), userDto.getMatchingPassword())) {
             throw new RuntimeException("Password is not equal");
         }
         User user = User.builder()
@@ -59,7 +86,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findFirstByName(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found with name: " + username);
         }
 

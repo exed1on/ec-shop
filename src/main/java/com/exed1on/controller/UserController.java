@@ -1,6 +1,7 @@
 package com.exed1on.controller;
 
 import com.exed1on.dto.UserDTO;
+import com.exed1on.model.User;
 import com.exed1on.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/users")
@@ -40,5 +44,39 @@ public class UserController {
             model.addAttribute("user", userDTO);
             return "user";
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile")
+    public String profileUser(Model model, Principal principal){
+        if(principal == null){
+            throw new RuntimeException("You are not authorize");
+        }
+        User user = userService.findByName(principal.getName());
+
+        UserDTO dto = UserDTO.builder()
+                .username(user.getName())
+                .email(user.getEmail())
+                .build();
+        model.addAttribute("user", dto);
+        return "profile";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/profile")
+    public String updateProfileUser(UserDTO dto, Model model, Principal principal){
+        if(principal == null
+                || !Objects.equals(principal.getName(), dto.getUsername())){
+            throw new RuntimeException("You are not authorize");
+        }
+        if(dto.getPassword() != null
+                && !dto.getPassword().isEmpty()
+                && !Objects.equals(dto.getPassword(), dto.getMatchingPassword())){
+            model.addAttribute("user", dto);
+            return "profile";
+        }
+
+        userService.updateProfile(dto);
+        return "redirect:/users/profile";
     }
 }
