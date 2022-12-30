@@ -57,26 +57,6 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
     }
 
-    @Override
-    public void removeProduct(Cart cart, List<Long> productIds) {
-//        List<Product> products = cart.getProducts();
-//        if(products.contains(productId)){
-//            products.stream()
-//                    .findFirst()
-//                    .filter(product -> product.getId().equals(productId));
-//            products.removeIf(product -> product.getId().equals(productId));
-//
-//
-//        }
-//        Cart newCart = new Cart();
-//        newCart.setProducts(products);
-//        cartRepository.save(newCart);
-        List<Product> products = cart.getProducts();
-        List<Product> newProductList = products == null ? new ArrayList<>() : new ArrayList<>(products);
-        newProductList.addAll(getCollectRefProductsByIds(productIds));
-        cart.setProducts(newProductList);
-        cartRepository.save(cart);
-    }
 
     @Override
     public CartDTO getCartByUser(String name) {
@@ -95,7 +75,7 @@ public class CartServiceImpl implements CartService {
                 mapByProductId.put(product.getId(), new CartDetailDTO(product));
             }
             else {
-                detail.setAmount(detail.getAmount() + 1.0);
+                detail.setAmount(detail.getAmount() + 1);
                 detail.setSum(detail.getSum() + product.getPrice());
             }
         }

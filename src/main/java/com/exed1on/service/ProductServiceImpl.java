@@ -63,12 +63,8 @@ public class ProductServiceImpl implements ProductService {
         }
             cartRepository.deleteById(productId);
         Cart cart=user.getCart();
-        if(cart==null){
-            Cart newCart = cartService.createCart(user, Collections.singletonList(productId));
-            user.setCart(newCart);
-            userService.save(user);
-        } else {
-            cartService.addProducts(cart, Collections.singletonList(productId));
+        if(cart!=null){
+           cartRepository.deleteById(cart.getId());
         }
     }
 }

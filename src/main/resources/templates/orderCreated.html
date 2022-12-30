@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Login page</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<p>Dear <span sec:authentication="principal.username"></span>, your order that
+consists of:
+</p>
+<ul>
+  <li th:each="detail : ${cart.cartDetails}" th:text="${detail.title}+
+  ' x'+${detail.amount}+' with price '+${detail.price}
+  +':      '+${detail.sum}">
+  </li>
+</ul>
+<h3>Total: <b th:text="${cart.sum}">1000</b></h3>
+<p>was successfully created</p>
+</body>
+</html>

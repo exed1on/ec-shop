@@ -17,6 +17,7 @@
     <td>Amount</td>
     <td>Price</td>
     <td>Sum</td>
+    <td>More</td>
     <td></td>
   </tr>
   <tr th:each="detail : ${cart.cartDetails}">
@@ -25,8 +26,6 @@
     <td th:text="${detail.price}">11.0</td>
     <td th:text="${detail.sum}">22</td>
     <td><a th:href="@{/{id}/cart(id=${detail.getProductId()})}">Add</a></td>
-    <td><a th:href="@{/{id}/remove(id=${detail.getProductId()})}">Remove</a></td>
-<!--    <td><a th:href="@{/{id}/remove(id=${detail.getProductId()})}">Remove</a></td>-->
   </tr>
 </table>
 

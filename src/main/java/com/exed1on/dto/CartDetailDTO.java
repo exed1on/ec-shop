@@ -14,14 +14,14 @@ public class CartDetailDTO {
     private String title;
     private Long productId;
     private Double price;
-    private Double amount;
+    private Integer amount;
     private Double sum;
 
     public CartDetailDTO(Product product){
         this.title = product.getTitle();
         this.productId = product.getId();
         this.price = product.getPrice();
-        this.amount = 1.0;
+        this.amount = 1;
         this.sum = product.getPrice();
     }
 }
