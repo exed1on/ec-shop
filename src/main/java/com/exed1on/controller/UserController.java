@@ -3,7 +3,6 @@ package com.exed1on.controller;
 import com.exed1on.dto.UserDTO;
 import com.exed1on.model.User;
 import com.exed1on.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

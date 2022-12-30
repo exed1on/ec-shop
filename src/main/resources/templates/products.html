@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"><head>
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
   <meta charset="ISO-8859-1">
   <title>Login page</title>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-  <table botder="1" align="center">
-    <tr>
-      <td>Title</td>
-      <td>Price</td>
-    </tr>
-    <tr th:each="products : ${products}">
-      <td th:each="${products.title}">Apples</td>
-      <td th:each="${products.price}">100.50</td>
-    </tr>
-  </table>
+<table border="1" align="center" id="table">
+  <tr>
+    <td>Title</td>
+    <td>Price</td>
+    <td></td>
+  </tr>
+  <tr th:each="product : ${products}">
+    <td th:text="${product.title}">Cheese</td>
+    <td th:text="${product.price}">12.0</td>
+    <td><a th:href="@{/products/{id}/cart(id=${product.id})}">Add to bucket</a></td>
+  </tr>
+</table>
 
 </body>
 </html>
