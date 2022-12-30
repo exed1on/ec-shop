@@ -7,6 +7,7 @@ import com.exed1on.model.Product;
 import com.exed1on.repository.CartRepository;
 import com.exed1on.repository.ProductRepository;
 import com.exed1on.model.User;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode
 @Service
 @Transactional
 public class CartServiceImpl implements CartService {
@@ -48,6 +50,27 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProducts(Cart cart, List<Long> productIds) {
+        List<Product> products = cart.getProducts();
+        List<Product> newProductList = products == null ? new ArrayList<>() : new ArrayList<>(products);
+        newProductList.addAll(getCollectRefProductsByIds(productIds));
+        cart.setProducts(newProductList);
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public void removeProduct(Cart cart, List<Long> productIds) {
+//        List<Product> products = cart.getProducts();
+//        if(products.contains(productId)){
+//            products.stream()
+//                    .findFirst()
+//                    .filter(product -> product.getId().equals(productId));
+//            products.removeIf(product -> product.getId().equals(productId));
+//
+//
+//        }
+//        Cart newCart = new Cart();
+//        newCart.setProducts(products);
+//        cartRepository.save(newCart);
         List<Product> products = cart.getProducts();
         List<Product> newProductList = products == null ? new ArrayList<>() : new ArrayList<>(products);
         newProductList.addAll(getCollectRefProductsByIds(productIds));

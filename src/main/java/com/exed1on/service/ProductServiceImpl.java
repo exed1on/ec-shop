@@ -3,6 +3,7 @@ package com.exed1on.service;
 import com.exed1on.dto.ProductDTO;
 import com.exed1on.mapper.ProductMapper;
 import com.exed1on.model.Cart;
+import com.exed1on.repository.CartRepository;
 import com.exed1on.repository.ProductRepository;
 import com.exed1on.model.User;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final CartService cartService;
+    private final CartRepository cartRepository;
 
     public ProductServiceImpl(ProductRepository productRepository,
                               UserService userService,
-                              CartService cartService) {
+                              CartService cartService,
+                              CartRepository cartRepository) {
         this.productRepository = productRepository;
         this.userService = userService;
         this.cartService = cartService;
+        this.cartRepository = cartRepository;
     }
 
 
@@ -41,6 +45,23 @@ public class ProductServiceImpl implements ProductService {
         if (user == null) {
             throw new RuntimeException("User not found with username " + username);
         }
+        Cart cart=user.getCart();
+        if(cart==null){
+            Cart newCart = cartService.createCart(user, Collections.singletonList(productId));
+            user.setCart(newCart);
+            userService.save(user);
+        } else {
+            cartService.addProducts(cart, Collections.singletonList(productId));
+        }
+    }
+
+    @Override
+    public void removeFromUserCart(Long productId, String username) {
+        User user = userService.findByName(username);
+        if (user == null) {
+            throw new RuntimeException("User not found with username " + username);
+        }
+            cartRepository.deleteById(productId);
         Cart cart=user.getCart();
         if(cart==null){
             Cart newCart = cartService.createCart(user, Collections.singletonList(productId));

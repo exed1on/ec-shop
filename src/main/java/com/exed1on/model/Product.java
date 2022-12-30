@@ -5,8 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,9 +19,9 @@ public class Product {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
 
-private String title;
+    private String title;
 
-private Double price;
+    private Double price;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),

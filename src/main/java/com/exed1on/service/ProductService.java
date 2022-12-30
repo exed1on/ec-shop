@@ -8,4 +8,6 @@ public interface ProductService {
     List<ProductDTO> getAll();
 
     void addToUserCart(Long productId, String username);
+
+    void removeFromUserCart(Long productId, String username);
 }
